@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model RideRequest {
+  id                String   @id @default(cuid())
+  riderName         String
+  phone             String
+  pickupLocation    String
+  destination       String
+  rideType          String   @default("within-city") // within-city, within-state, interstate
+  passengers        Int
+  notes             String?
+  status            String   @default("PENDING") // PENDING, ACCEPTED, IN_PROGRESS, COMPLETED, CANCELLED
+  scheduledTime     DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Driver {
+  id                    String   @id @default(cuid())
+  name                  String
+  email                 String   @unique
+  phone                 String
+  vehicleType           String   // Keke, Car, Bus
+  plateNumber           String   @unique
+  licenseNumber         String   @unique
+  yearsExperience       Int
+  homeBaseCity          String
+  interstateAvailability Boolean  @default(false)
+  status                String   @default("PENDING_VERIFICATION") // PENDING_VERIFICATION, VERIFIED, REJECTED, SUSPENDED
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  @@index([status])
+  @@index([homeBaseCity])
+}
+
+model Business {
+  id                      String   @id @default(cuid())
+  businessName            String
+  contactPerson           String
+  phone                   String
+  email                   String   @unique
+  address                 String
+  city                    String
+  logisticsNeedType       String   // staff-transport, goods-delivery, regular-dispatch
+  expectedUsageFrequency  String   @default("MONTHLY") // DAILY, WEEKLY, MONTHLY
+  status                  String   @default("PENDING_VERIFICATION") // PENDING_VERIFICATION, VERIFIED, REJECTED, ACTIVE
+  createdAt               DateTime @default(now())
+  updatedAt               DateTime @updatedAt
+
+  @@index([status])
+  @@index([city])
+}
+
+model FareEstimate {
+  id          String   @id @default(cuid())
+  rideType    String   // within-city, within-state, interstate
+  vehicleType String   // Keke, Car, Bus
+  minFare     Int
+  maxFare     Int
+  currency    String   @default("NGN")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([rideType, vehicleType])
+}
+
+model DispatcherAlert {
+  id          String   @id @default(cuid())
+  dispatcherId String
+  rideRequestId String
+  message     String
+  status      String   @default("PENDING") // PENDING, SENT, DELIVERED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status])
+  @@index([dispatcherId])
+}
