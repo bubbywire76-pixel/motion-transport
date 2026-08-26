@@ -1,0 +1,21 @@
+{
+  "name": "motion-transport",
+  "version": "1.0.0",
+  "description": "Motion: Nigeria's premium ride-hailing and logistics platform",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\"",
+    "build": "npm run build --workspaces",
+    "start": "npm start --workspace=backend",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "test": "jest"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "eslint": "^8.50.0",
+    "jest": "^29.7.0"
+  }
+}
