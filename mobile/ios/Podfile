@@ -1,0 +1,28 @@
+platform :ios, '15.0'
+
+target 'MotionTransport' do
+  use_frameworks!
+
+  # Networking
+  pod 'Alamofire', '~> 5.8'
+  
+  # Maps
+  pod 'GoogleMaps'
+  pod 'GooglePlaces'
+  
+  # Local Database
+  pod 'Realm', '~> 10.40'
+  
+  # Push Notifications
+  pod 'Firebase/Messaging', '~> 10.19'
+  
+  # Logging
+  pod 'CocoaLumberjack/Swift'
+  
+  # Testing
+  target 'MotionTransportTests' do
+    inherit! :search_paths
+    pod 'Nimble', '~> 12.0'
+    pod 'Quick', '~> 7.0'
+  end
+end
