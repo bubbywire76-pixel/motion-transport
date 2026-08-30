@@ -1,0 +1,36 @@
+# Xcode
+build/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/xcshareddata/
+DerivedData/
+*.hmap
+*.ipa
+*.xcarchive
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# IDE
+.DS_Store
+.idea/
+*.swp
+*.swo
+*~
+.vscode/
+
+# Environment
+.env
+.env.local
+
+# Logs
+*.log
+
+# Dependencies
+.dependencies/
