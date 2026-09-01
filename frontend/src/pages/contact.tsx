@@ -16,7 +16,8 @@ export default function ContactPage() {
   const onSubmit = async (data: ContactFormData) => {
     setLoading(true)
     try {
-      // Simulate form submission
+      // Simulate form submission (log the data so TypeScript treats it as used)
+      console.log(data)
       await new Promise(resolve => setTimeout(resolve, 1000))
       toast.success('✅ Message sent! Our team will contact you shortly.')
       reset()

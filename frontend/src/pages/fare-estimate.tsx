@@ -19,7 +19,7 @@ interface FareResult {
 }
 
 export default function FareEstimatePage() {
-  const { register, handleSubmit, watch } = useForm<FareEstimateData>({
+  const { register, handleSubmit } = useForm<FareEstimateData>({
     defaultValues: {
       rideType: 'within-city',
       vehicleType: 'Car',
@@ -122,7 +122,7 @@ export default function FareEstimatePage() {
                   <div className="bg-white rounded-lg p-6 mb-6">
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-gray-600">Trip Type:</span>
-                      <span className="font-semibold text-primary-600 capitalize">{{result.rideType}}</span>
+                      <span className="font-semibold text-primary-600 capitalize">{result.rideType}</span>
                     </div>
                     <div className="flex justify-between items-center mb-6">
                       <span className="text-gray-600">Vehicle:</span>

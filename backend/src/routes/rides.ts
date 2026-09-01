@@ -8,7 +8,7 @@ const prisma = new PrismaClient()
 // Book a Ride
 router.post('/book', [
   body('riderName').notEmpty().withMessage('Rider name is required'),
-  body('phone').isMobilePhone().withMessage('Valid phone number required'),
+  body('phone').isMobilePhone('any').withMessage('Valid phone number required'),
   body('pickupLocation').notEmpty().withMessage('Pickup location required'),
   body('destination').notEmpty().withMessage('Destination required'),
   body('rideType').isIn(['within-city', 'within-state', 'interstate']).withMessage('Invalid ride type'),

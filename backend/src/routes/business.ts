@@ -9,7 +9,7 @@ const prisma = new PrismaClient()
 router.post('/register', [
   body('businessName').notEmpty().withMessage('Business name required'),
   body('contactPerson').notEmpty().withMessage('Contact person required'),
-  body('phone').isMobilePhone().withMessage('Valid phone required'),
+  body('phone').isMobilePhone('any').withMessage('Valid phone required'),
   body('email').isEmail().withMessage('Valid email required'),
   body('address').notEmpty().withMessage('Address required'),
   body('city').notEmpty().withMessage('City required'),

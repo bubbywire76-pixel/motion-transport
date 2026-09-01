@@ -39,7 +39,7 @@ export default function BookRidePage() {
   const onSubmit = async (data: BookRideFormData) => {
     setLoading(true)
     try {
-      const response = await axios.post(
+    await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/rides/book`,
         data
       )
