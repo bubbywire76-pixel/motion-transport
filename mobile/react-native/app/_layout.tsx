@@ -18,6 +18,10 @@ import SignupScreen from "./auth/signup";
 import HomeScreen from "./home/index";
 import ProfileScreen from "./home/profile";
 import RideHistoryScreen from "./home/ride-history";
+import BookRideScreen from "./home/book-ride";
+import FareEstimateScreen from "./home/fare-estimate";
+import DriverRegisterScreen from "./home/driver-register";
+import BusinessRegisterScreen from "./home/business-register";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -61,6 +65,22 @@ function HomeStack() {
         options={{
           title: "Motion Transport",
         }}
+      />
+      <Stack.Screen
+        name="BookRide"
+        component={BookRideScreen}
+      />
+      <Stack.Screen
+        name="FareEstimate"
+        component={FareEstimateScreen}
+      />
+      <Stack.Screen
+        name="DriverRegister"
+        component={DriverRegisterScreen}
+      />
+      <Stack.Screen
+        name="BusinessRegister"
+        component={BusinessRegisterScreen}
       />
     </Stack.Navigator>
   );

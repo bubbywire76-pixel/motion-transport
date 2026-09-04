@@ -2,14 +2,15 @@ import apiClient from "./api";
 import { Driver, ApiResponse } from "@types/index";
 
 interface DriverRegistrationRequest {
-  userId: string;
+  name: string;
+  email: string;
+  phone: string;
+  vehicleType: "Keke" | "Car" | "Bus";
+  plateNumber: string;
   licenseNumber: string;
-  licenseExpiry: string;
-  insuranceNumber: string;
-  insuranceExpiry: string;
-  bankAccountNumber: string;
-  bankCode: string;
-  bankAccountName: string;
+  yearsExperience: number;
+  homeBaseCity: string;
+  interstateAvailability: boolean;
 }
 
 export const driverService = {

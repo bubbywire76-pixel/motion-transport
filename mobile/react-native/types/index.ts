@@ -54,18 +54,16 @@ export interface FareEstimate {
 
 export interface Driver {
   id: string;
-  userId: string;
+  name: string;
+  email: string;
+  phone: string;
+  vehicleType: "Keke" | "Car" | "Bus";
+  plateNumber: string;
   licenseNumber: string;
-  licenseExpiry: string;
-  insuranceNumber: string;
-  insuranceExpiry: string;
-  bankAccountNumber: string;
-  bankCode: string;
-  bankAccountName: string;
-  status: "pending" | "approved" | "suspended" | "rejected";
-  verificationStatus: "unverified" | "pending" | "verified" | "rejected";
-  rating: number;
-  totalRides: number;
+  yearsExperience: number;
+  homeBaseCity: string;
+  interstateAvailability: boolean;
+  status: "PENDING_VERIFICATION" | "VERIFIED" | "SUSPENDED" | "REJECTED";
   createdAt: string;
   updatedAt: string;
 }

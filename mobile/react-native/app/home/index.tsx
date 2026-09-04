@@ -28,11 +28,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       description: "Travel safely across Nigeria",
       icon: "🚕",
       onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Book ride feature will be available soon",
-        });
+        navigation.navigate("BookRide");
       },
     },
     {
@@ -40,11 +36,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       description: "Transparent pricing",
       icon: "💰",
       onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Fare estimate feature will be available soon",
-        });
+        navigation.navigate("FareEstimate", { pickup: "", destination: "", rideType: "economy" });
       },
     },
     {
@@ -52,11 +44,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       description: "Join our driver network",
       icon: "👨‍💼",
       onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Driver registration will be available soon",
-        });
+        navigation.navigate("DriverRegister");
       },
     },
     {
@@ -64,11 +52,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       description: "Fleet & logistics",
       icon: "🏢",
       onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Business solutions will be available soon",
-        });
+        navigation.navigate("BusinessRegister");
       },
     },
   ];
