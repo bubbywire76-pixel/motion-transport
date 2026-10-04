@@ -1,14 +1,15 @@
 import express, { Router, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import { body, validationResult } from 'express-validator'
+import { requireAuth, requireRole } from '../middleware/auth'
 
 const router = Router()
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({})
 
 // Book a Ride
 router.post('/book', [
   body('riderName').notEmpty().withMessage('Rider name is required'),
-  body('phone').isMobilePhone().withMessage('Valid phone number required'),
+  body('phone').isMobilePhone('any').withMessage('Valid phone number required'),
   body('pickupLocation').notEmpty().withMessage('Pickup location required'),
   body('destination').notEmpty().withMessage('Destination required'),
   body('rideType').isIn(['within-city', 'within-state', 'interstate']).withMessage('Invalid ride type'),
@@ -47,7 +48,7 @@ router.post('/book', [
 })
 
 // Get all ride requests (Admin)
-router.get('/admin/all', async (req: Request, res: Response) => {
+router.get('/admin/all', requireAuth, requireRole('admin'), async (req: Request, res: Response) => {
   try {
     const rides = await prisma.rideRequest.findMany({
       orderBy: { createdAt: 'desc' },
@@ -73,7 +74,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 // Update ride status
-router.patch('/:id/status', [
+router.patch('/:id/status', requireAuth, requireRole('admin'), [
   body('status').isIn(['PENDING', 'ACCEPTED', 'IN_PROGRESS', 'COMPLETED', 'CANCELLED']),
 ], async (req: Request, res: Response) => {
   const errors = validationResult(req)

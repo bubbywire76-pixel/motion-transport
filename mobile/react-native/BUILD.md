@@ -19,7 +19,7 @@ This guide covers setup, development, and deployment of the Motion Transport Rea
 
 ### System Requirements
 
-- **Node.js**: v16 or higher
+- **Node.js**: v20 LTS (Expo SDK 50 is not compatible with the installed Node 24 runtime)
 - **npm**: v7 or higher
 - **Git**: Latest version
 
@@ -40,8 +40,11 @@ This guide covers setup, development, and deployment of the Motion Transport Rea
 
 ```
 mobile/react-native/
+├── index.ts                 # Explicit Expo entry point for the hoisted workspace
+├── App.tsx                  # React Navigation root layout
 ├── app/                      # Screens and navigation
 │   ├── _layout.tsx          # Root layout with navigation setup
+│   ├── lifestyle/           # Bills, flights, and activity screens
 │   ├── auth/                # Authentication screens
 │   │   ├── login.tsx
 │   │   └── signup.tsx
@@ -63,6 +66,8 @@ mobile/react-native/
 │   ├── api.ts              # Axios client setup
 │   ├── auth.ts             # Authentication service
 │   ├── ride.ts             # Ride booking service
+│   ├── lifestyle.ts        # Live biller catalog and payment checkout
+│   ├── travel.ts            # Live flight search and booking checkout
 │   ├── driver.ts           # Driver registration service
 │   └── location.ts         # Location services
 ├── context/                 # React Context for state management
@@ -109,10 +114,17 @@ Copy the environment template:
 
 ```bash
 cd mobile/react-native
-cp .env.example .env.local
+Copy-Item .env.example .env
 ```
 
-For local development (default), the API will point to `http://localhost:5000/api`.
+Set `EXPO_PUBLIC_API_URL` in `.env`:
+
+- Android emulator: `http://10.0.2.2:5000/api`
+- iOS simulator: `http://localhost:5000/api`
+- Physical phone: `http://<computer-LAN-IP>:5000/api`; the phone and computer must share a network.
+
+Production and staging builds must use an HTTPS backend URL. Never put backend,
+Flutterwave, or airline-provider secrets in this app configuration.
 
 ### 3. Start Backend API
 
@@ -124,6 +136,14 @@ npm start --workspace=backend
 ```
 
 The backend should be available at `http://localhost:5000`.
+
+Before starting the backend, copy `backend/.env.example` to `backend/.env`,
+configure `DATABASE_URL`, and generate a `JWT_SECRET` with at least 32 random
+characters. Apply the Prisma migration with:
+
+```bash
+npm run db:migrate --workspace=backend
+```
 
 ## Running on iOS
 
@@ -147,9 +167,18 @@ npm run dev
 
 Then press `i` to open in iOS Simulator.
 
+This app uses `expo-dev-client`; an installed development build is required
+before the QR code can launch the native app. Link the project to an Expo
+account once, then build and install a development client:
+
+```bash
+npx eas-cli@latest init
+npx eas-cli@latest build --platform ios --profile development
+```
+
 ### First Run
 
-On first run, you may need to install CocoaPods dependencies:
+For a local native build, generate the iOS project and install CocoaPods:
 
 ```bash
 cd mobile/react-native
@@ -158,17 +187,16 @@ npx expo prebuild --clean
 
 ### Testing on Physical Device
 
-1. Install Expo Go app from App Store
-2. Run: `npm run dev`
-3. Scan the QR code with your iPhone camera
-4. Open the link in Expo Go
+1. Build and install the iOS development client using the command above.
+2. Set `EXPO_PUBLIC_API_URL` in `.env` to the computer's LAN address.
+3. Run `npm run dev` with the phone and computer on the same Wi-Fi network.
+4. Scan the QR code with the installed Motion development client.
 
 ### Building for App Store
 
 ```bash
-# Configure EAS (one-time setup)
-npm install -g eas-cli
-eas init
+# Link the app to your Expo account (one-time setup)
+npx eas-cli@latest init
 
 # Build for App Store
 npm run build:ios
@@ -197,17 +225,23 @@ npm run dev
 
 Then press `a` to open in Android Emulator.
 
+For a physical device, create and install an Android development client:
+
+```bash
+npx eas-cli@latest init
+npx eas-cli@latest build --platform android --profile development
+```
+
 ### First Run
 
 The first run may take longer as dependencies are compiled.
 
 ### Testing on Physical Device
 
-1. Install Expo Go from Google Play Store
-2. Enable USB debugging on your device
-3. Connect device via USB
-4. Run: `npm run dev`
-5. Scan the QR code with your device
+1. Install the Android development build from the EAS build page.
+2. Set `EXPO_PUBLIC_API_URL` in `.env` to the computer's LAN address.
+3. Run `npm run dev` with the phone and computer on the same Wi-Fi network.
+4. Scan the QR code with the installed Motion development client.
 
 ### Building for Play Store
 
@@ -217,6 +251,10 @@ npm run build:android
 ```
 
 ## Building for Production
+
+Set the production `EXPO_PUBLIC_API_URL` in your EAS environment to an HTTPS
+backend. EAS produces installable iOS and Android builds; `npm run build` runs
+the type check and exports JavaScript bundles only.
 
 ### iOS Production Build
 
@@ -261,22 +299,22 @@ cd android
 ### Development
 
 ```env
-API_BASE_URL=http://localhost:5000/api
-RELEASE_CHANNEL=dev
+EXPO_PUBLIC_API_URL=http://localhost:5000/api
+EXPO_PUBLIC_RELEASE_CHANNEL=development
 ```
 
 ### Staging
 
 ```env
-API_BASE_URL=https://staging-api.motionxport.com/api
-RELEASE_CHANNEL=staging
+EXPO_PUBLIC_API_URL=https://staging-api.motionxport.com/api
+EXPO_PUBLIC_RELEASE_CHANNEL=staging
 ```
 
 ### Production
 
 ```env
-API_BASE_URL=https://api.motionxport.com/api
-RELEASE_CHANNEL=production
+EXPO_PUBLIC_API_URL=https://api.motionxport.com/api
+EXPO_PUBLIC_RELEASE_CHANNEL=production
 ```
 
 ## Troubleshooting
@@ -334,6 +372,19 @@ npx expo prebuild --clean
 
 ## API Integration
 
+The backend implements account signup, login, and JWT session restoration.
+Bills and flight screens make live API requests but currently have no provider
+routes. They show a service-unavailable message instead of sample billers,
+sample fares, or a false success state. Add Flutterwave credentials and the
+provider integration to the backend before enabling real bill payments.
+Provider coverage must be confirmed against the live biller catalog for each
+country and service. Flight search and ticket issuance likewise require a
+contracted travel provider.
+
+The activity feature counts actual steps from the device pedometer during a
+walk and saves completed walks locally. It is not an all-day background
+HealthKit or Health Connect step counter.
+
 ### Authentication Flow
 
 1. User logs in with email/password
@@ -390,9 +441,32 @@ Root Layout
     │   └── Home Screen (Dashboard)
     ├── Rides Tab
     │   └── Ride History Screen
+    ├── Life Tab
+    │   ├── Bills & Payments
+    │   ├── Flights
+    │   └── Daily Activity
     └── Profile Tab
         └── Profile Screen
 ```
+
+### Live payments and travel
+
+The bills and flight screens require a live Motion backend integration that
+provides billers, secure payment checkout, flight search, and booking checkout.
+The current backend does not yet expose these endpoints or connect to a
+payment/travel provider. Until it does, the app reports the API error and does
+not display sample billers or fares or claim that a payment or booking
+succeeded. Keep provider credentials on the server, never in the mobile app.
+Supported countries, billers, airlines, and payment methods depend on the
+contracted provider and must be verified; a single integration cannot be
+assumed to cover every African financial institution.
+
+### Activity tracking
+
+Daily activity uses the device pedometer via `expo-sensors`. The app requests
+Motion access when a walk is started and saves completed walk sessions locally.
+Steps are counted only while a walk is active; sensor availability varies by
+device.
 
 ### State Management
 
@@ -405,6 +479,8 @@ Root Layout
 - **api.ts**: Axios client with interceptors
 - **auth.ts**: Login, signup, token refresh
 - **ride.ts**: Ride booking, fare estimation
+- **lifestyle.ts**: Billers and secure bill-payment checkout
+- **travel.ts**: Live flight search and secure booking checkout
 - **driver.ts**: Driver registration
 - **location.ts**: Location services using Expo Location
 

@@ -18,6 +18,10 @@ import SignupScreen from "./auth/signup";
 import HomeScreen from "./home/index";
 import ProfileScreen from "./home/profile";
 import RideHistoryScreen from "./home/ride-history";
+import LifestyleScreen from "./lifestyle";
+import BillPaymentsScreen from "./lifestyle/bill-payments";
+import FlightsScreen from "./lifestyle/flights";
+import ActivityScreen from "./lifestyle/activity";
 
 // Feature Screens
 import BookRideScreen from "./book-ride";
@@ -77,6 +81,17 @@ function HomeStack() {
   );
 }
 
+function LifestyleStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="LifestyleHome" component={LifestyleScreen} />
+      <Stack.Screen name="BillPayments" component={BillPaymentsScreen} />
+      <Stack.Screen name="Flights" component={FlightsScreen} />
+      <Stack.Screen name="Activity" component={ActivityScreen} />
+    </Stack.Navigator>
+  );
+}
+
 function TabNavigator() {
   return (
     <Tab.Navigator
@@ -90,6 +105,8 @@ function TabNavigator() {
             iconName = "history";
           } else if (route.name === "Profile") {
             iconName = "account";
+          } else if (route.name === "Lifestyle") {
+            iconName = "compass-outline";
           }
           return (
             <MaterialCommunityIcons
@@ -117,6 +134,13 @@ function TabNavigator() {
         component={RideHistoryScreen}
         options={{
           title: "Rides",
+        }}
+      />
+      <Tab.Screen
+        name="Lifestyle"
+        component={LifestyleStack}
+        options={{
+          title: "Life",
         }}
       />
       <Tab.Screen

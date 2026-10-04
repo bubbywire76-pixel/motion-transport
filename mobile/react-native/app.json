@@ -3,6 +3,7 @@
     "name": "Motion Transport",
     "slug": "motion-transport",
     "version": "1.0.0",
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -32,12 +33,16 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to access your location."
         }
+      ],
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Allow Motion to count steps during your walks."
+        }
       ]
     ],
     "extra": {
-      "eas": {
-        "projectId": "motion-transport-mobile"
-      }
+      "releaseChannel": "development"
     }
   }
 }

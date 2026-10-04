@@ -1,15 +1,16 @@
 import express, { Router, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import { body, validationResult } from 'express-validator'
+import { requireAuth, requireRole } from '../middleware/auth'
 
 const router = Router()
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({})
 
 // Register Business
 router.post('/register', [
   body('businessName').notEmpty().withMessage('Business name required'),
   body('contactPerson').notEmpty().withMessage('Contact person required'),
-  body('phone').isMobilePhone().withMessage('Valid phone required'),
+  body('phone').isMobilePhone('any').withMessage('Valid phone required'),
   body('email').isEmail().withMessage('Valid email required'),
   body('address').notEmpty().withMessage('Address required'),
   body('city').notEmpty().withMessage('City required'),
@@ -52,7 +53,7 @@ router.post('/register', [
 })
 
 // Get all businesses (Admin)
-router.get('/admin/all', async (req: Request, res: Response) => {
+router.get('/admin/all', requireAuth, requireRole('admin'), async (req: Request, res: Response) => {
   try {
     const businesses = await prisma.business.findMany({
       orderBy: { createdAt: 'desc' },

@@ -2,15 +2,16 @@ import express, { Router, Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import { body, validationResult } from 'express-validator'
 import bcrypt from 'bcryptjs'
+import { requireAuth, requireRole } from '../middleware/auth'
 
 const router = Router()
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({})
 
 // Register Driver
 router.post('/register', [
   body('name').notEmpty().withMessage('Name required'),
   body('email').isEmail().withMessage('Valid email required'),
-  body('phone').isMobilePhone().withMessage('Valid phone required'),
+  body('phone').isMobilePhone('any').withMessage('Valid phone required'),
   body('vehicleType').isIn(['Keke', 'Car', 'Bus']).withMessage('Invalid vehicle type'),
   body('plateNumber').notEmpty().withMessage('Plate number required'),
   body('licenseNumber').notEmpty().withMessage('License number required'),
@@ -55,7 +56,7 @@ router.post('/register', [
 })
 
 // Get all drivers (Admin)
-router.get('/admin/all', async (req: Request, res: Response) => {
+router.get('/admin/all', requireAuth, requireRole('admin'), async (req: Request, res: Response) => {
   try {
     const drivers = await prisma.driver.findMany({
       orderBy: { createdAt: 'desc' },
@@ -79,7 +80,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 })
 
 // Verify driver (Admin)
-router.patch('/:id/verify', async (req: Request, res: Response) => {
+router.patch('/:id/verify', requireAuth, requireRole('admin'), async (req: Request, res: Response) => {
   try {
     const { id } = req.params
     const driver = await prisma.driver.update({

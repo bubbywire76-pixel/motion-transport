@@ -4,7 +4,7 @@
   "description": "Motion: Nigeria's premium ride-hailing and logistics platform",
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=frontend\" \"npm run dev --workspace=backend\"",
-    "dev:mobile": "npm run dev --workspace=mobile",
+    "dev:mobile": "npm run dev --workspace=motion-mobile",
     "build": "npm run build --workspaces",
     "start": "npm start --workspace=backend",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
@@ -15,6 +15,9 @@
     "backend",
     "mobile/react-native"
   ],
+  "overrides": {
+    "react-native": "0.73.6"
+  },
   "devDependencies": {
     "concurrently": "^8.2.0",
     "eslint": "^8.50.0",

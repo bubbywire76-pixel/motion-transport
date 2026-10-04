@@ -48,8 +48,8 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
 
     if (!password) {
       newErrors.password = "Password is required";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+    } else if (password.length < 12) {
+      newErrors.password = "Password must be at least 12 characters";
     }
 
     if (password !== confirmPassword) {
@@ -172,7 +172,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
               label="Password"
               value={password}
               onChangeText={setPassword}
-              placeholder="••••••••"
+              placeholder="At least 12 characters"
               secureTextEntry
               error={!!errors.password}
               errorMessage={errors.password}
