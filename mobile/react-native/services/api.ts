@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosError } from "axios";
-import * as SecureStore from "expo-secure-store";
 import { envConfig } from "@config/environment";
+import { tokenStorage } from "./tokenStorage";
 
 const baseURL = envConfig.API_BASE_URL;
 
@@ -16,7 +16,7 @@ const apiClient: AxiosInstance = axios.create({
 apiClient.interceptors.request.use(
   async (config) => {
     try {
-      const token = await SecureStore.getItemAsync("auth_token");
+      const token = await tokenStorage.getItemAsync("auth_token");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -37,8 +37,8 @@ apiClient.interceptors.response.use(
     if (error.response?.status === 401) {
       // Handle token expiration
       try {
-        await SecureStore.deleteItemAsync("auth_token");
-        await SecureStore.deleteItemAsync("refresh_token");
+        await tokenStorage.deleteItemAsync("auth_token");
+        await tokenStorage.deleteItemAsync("refresh_token");
       } catch (e) {
         console.error("Error clearing tokens:", e);
       }

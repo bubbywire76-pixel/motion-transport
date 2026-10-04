@@ -250,6 +250,19 @@ The first run may take longer as dependencies are compiled.
 npm run build:android
 ```
 
+## Browser Preview
+
+The native screens can also be previewed in a browser:
+
+```bash
+cd mobile/react-native
+npm run dev:web
+```
+
+This is a visual preview, not a native-device substitute. Browser preview
+sessions store tokens in browser `localStorage`; native builds use Expo
+SecureStore. Location permissions and the pedometer still require the native app.
+
 ## Building for Production
 
 Set the production `EXPO_PUBLIC_API_URL` in your EAS environment to an HTTPS
@@ -389,7 +402,7 @@ HealthKit or Health Connect step counter.
 
 1. User logs in with email/password
 2. Backend returns JWT token
-3. Token stored securely in Expo SecureStore
+3. Token stored in Expo SecureStore on native, or browser `localStorage` in web preview
 4. Token automatically added to all API requests
 5. On 401 response, token cleared and user redirected to login
 

@@ -1,6 +1,6 @@
 import apiClient from "./api";
 import { User, AuthResponse, ApiResponse } from "../types";
-import * as SecureStore from "expo-secure-store";
+import { tokenStorage } from "./tokenStorage";
 
 interface LoginRequest {
   email: string;
@@ -25,7 +25,7 @@ export const authService = {
 
       if (response.data.data) {
         const { token, user } = response.data.data;
-        await SecureStore.setItemAsync("auth_token", token);
+        await tokenStorage.setItemAsync("auth_token", token);
         return response.data.data;
       }
       throw new Error("Invalid response from server");
@@ -43,7 +43,7 @@ export const authService = {
 
       if (response.data.data) {
         const { token, user } = response.data.data;
-        await SecureStore.setItemAsync("auth_token", token);
+        await tokenStorage.setItemAsync("auth_token", token);
         return response.data.data;
       }
       throw new Error("Invalid response from server");
@@ -58,8 +58,8 @@ export const authService = {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      await SecureStore.deleteItemAsync("auth_token");
-      await SecureStore.deleteItemAsync("refresh_token");
+      await tokenStorage.deleteItemAsync("auth_token");
+      await tokenStorage.deleteItemAsync("refresh_token");
     }
   },
 

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { User, AuthResponse } from "../types";
 import { authService } from "@services/auth";
-import * as SecureStore from "expo-secure-store";
+import { tokenStorage } from "@services/tokenStorage";
 
 interface AuthContextType {
   user: User | null;
@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const bootstrapAsync = async () => {
     try {
-      const token = await SecureStore.getItemAsync("auth_token");
+      const token = await tokenStorage.getItemAsync("auth_token");
       if (token) {
         const currentUser = await authService.getCurrentUser();
         setUser(currentUser);
