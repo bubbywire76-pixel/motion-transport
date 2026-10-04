@@ -112,7 +112,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
             <Text
               variant="bodyMedium"
               style={{
-                color: theme.colors.onBackgroundVariant,
+                color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
               }}
             >
               Join us to start booking rides

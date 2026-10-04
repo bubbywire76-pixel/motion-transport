@@ -27,49 +27,25 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       title: "Book a Ride",
       description: "Travel safely across Nigeria",
       icon: "🚕",
-      onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Book ride feature will be available soon",
-        });
-      },
+      onPress: () => navigation.navigate("BookRide"),
     },
     {
       title: "Fare Estimate",
       description: "Transparent pricing",
       icon: "💰",
-      onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Fare estimate feature will be available soon",
-        });
-      },
+      onPress: () => navigation.navigate("FareEstimate"),
     },
     {
       title: "Driver Registration",
       description: "Join our driver network",
       icon: "👨‍💼",
-      onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Driver registration will be available soon",
-        });
-      },
+      onPress: () => navigation.navigate("DriverRegister"),
     },
     {
       title: "Business Solutions",
       description: "Fleet & logistics",
       icon: "🏢",
-      onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Business solutions will be available soon",
-        });
-      },
+      onPress: () => navigation.navigate("BusinessRegister"),
     },
   ];
 
@@ -152,13 +128,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           </Text>
           <Button
             label="Get Started"
-            onPress={() => {
-              Toast.show({
-                type: "info",
-                text1: "Let's go!",
-                text2: "Select an option below to get started",
-              });
-            }}
+            onPress={() => navigation.navigate("BookRide")}
             variant="secondary"
             size="medium"
             fullWidth
@@ -205,7 +175,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <Text
             variant="bodyMedium"
             style={{
-              color: theme.colors.onBackgroundVariant,
+              color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
               marginBottom: 12,
             }}
           >
@@ -230,7 +200,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <Text
                 variant="bodySmall"
                 style={{
-                  color: theme.colors.onBackgroundVariant,
+                  color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                 }}
               >
                 Active Drivers
@@ -249,7 +219,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <Text
                 variant="bodySmall"
                 style={{
-                  color: theme.colors.onBackgroundVariant,
+                  color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                 }}
               >
                 Happy Customers
@@ -268,7 +238,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               <Text
                 variant="bodySmall"
                 style={{
-                  color: theme.colors.onBackgroundVariant,
+                  color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                 }}
               >
                 Customer Support

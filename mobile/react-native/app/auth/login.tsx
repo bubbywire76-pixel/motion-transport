@@ -101,7 +101,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
             <Text
               variant="bodyMedium"
               style={{
-                color: theme.colors.onBackgroundVariant,
+                color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
               }}
             >
               Sign in to continue booking rides

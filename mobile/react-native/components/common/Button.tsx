@@ -47,7 +47,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   const getMode = () => {
     if (variant === "outline") return "outlined";
-    if (variant === "secondary") return "tonal";
+    if (variant === "secondary") return "contained-tonal";
     return "contained";
   };
 

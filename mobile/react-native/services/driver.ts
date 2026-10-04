@@ -1,5 +1,5 @@
 import apiClient from "./api";
-import { Driver, ApiResponse } from "@types/index";
+import { Driver, ApiResponse } from "../types";
 
 interface DriverRegistrationRequest {
   userId: string;

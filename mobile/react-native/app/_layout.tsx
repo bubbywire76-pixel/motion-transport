@@ -1,7 +1,7 @@
 import React from "react";
 import { PaperProvider } from "react-native-paper";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
@@ -19,7 +19,15 @@ import HomeScreen from "./home/index";
 import ProfileScreen from "./home/profile";
 import RideHistoryScreen from "./home/ride-history";
 
-const Stack = createNativeStackNavigator();
+// Feature Screens
+import BookRideScreen from "./book-ride";
+import FareEstimateScreen from "./fare-estimate";
+import DriverRegisterScreen from "./driver-register";
+import BusinessRegisterScreen from "./business-register";
+import AboutScreen from "./about";
+import ContactScreen from "./contact";
+
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function AuthStack() {
@@ -40,9 +48,6 @@ function AuthStack() {
       <Stack.Screen
         name="Signup"
         component={SignupScreen}
-        options={{
-          animationTypeForReplace: "slide_from_right",
-        }}
       />
     </Stack.Navigator>
   );
@@ -62,6 +67,12 @@ function HomeStack() {
           title: "Motion Transport",
         }}
       />
+      <Stack.Screen name="BookRide" component={BookRideScreen} />
+      <Stack.Screen name="FareEstimate" component={FareEstimateScreen} />
+      <Stack.Screen name="DriverRegister" component={DriverRegisterScreen} />
+      <Stack.Screen name="BusinessRegister" component={BusinessRegisterScreen} />
+      <Stack.Screen name="About" component={AboutScreen} />
+      <Stack.Screen name="Contact" component={ContactScreen} />
     </Stack.Navigator>
   );
 }
@@ -72,7 +83,7 @@ function TabNavigator() {
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ color, size }) => {
-          let iconName = "home";
+          let iconName: any = "home";
           if (route.name === "HomeTab") {
             iconName = "home";
           } else if (route.name === "Rides") {
@@ -92,7 +103,6 @@ function TabNavigator() {
         },
         tabBarActiveTintColor: "#008B8B",
         tabBarInactiveTintColor: "#999",
-        tabBarAccessibilityLabel: `${route.name} tab`,
       })}
     >
       <Tab.Screen

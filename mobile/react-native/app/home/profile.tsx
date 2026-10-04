@@ -57,26 +57,14 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       },
     },
     {
-      label: "Settings",
-      icon: "cog",
-      onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Settings feature will be available soon",
-        });
-      },
+      label: "About",
+      icon: "information",
+      onPress: () => navigation.navigate("About"),
     },
     {
-      label: "Help & Support",
-      icon: "help-circle",
-      onPress: () => {
-        Toast.show({
-          type: "info",
-          text1: "Coming soon",
-          text2: "Help & Support feature will be available soon",
-        });
-      },
+      label: "Contact",
+      icon: "phone",
+      onPress: () => navigation.navigate("Contact"),
     },
   ];
 
@@ -118,7 +106,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               <Text
                 variant="bodyMedium"
                 style={{
-                  color: theme.colors.onBackgroundVariant,
+                  color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                 }}
               >
                 {user?.email}
@@ -127,7 +115,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 <Text
                   variant="bodySmall"
                   style={{
-                    color: theme.colors.onBackgroundVariant,
+                    color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                   }}
                 >
                   {user.phone}
@@ -153,7 +141,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               <Text
                 variant="bodySmall"
                 style={{
-                  color: theme.colors.onBackgroundVariant,
+                  color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                   textAlign: "center",
                 }}
               >
@@ -174,7 +162,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               <Text
                 variant="bodySmall"
                 style={{
-                  color: theme.colors.onBackgroundVariant,
+                  color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                   textAlign: "center",
                 }}
               >
@@ -195,7 +183,7 @@ const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
               <Text
                 variant="bodySmall"
                 style={{
-                  color: theme.colors.onBackgroundVariant,
+                  color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                   textAlign: "center",
                 }}
               >

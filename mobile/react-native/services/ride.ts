@@ -1,6 +1,5 @@
 import apiClient from "./api";
-import { FareEstimate, Ride, ApiResponse } from "@types/index";
-import { Location } from "@types/index";
+import { FareEstimate, Ride, ApiResponse, Location } from "../types";
 
 interface BookRideRequest {
   pickupLocation: Location;

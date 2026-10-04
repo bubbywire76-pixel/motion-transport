@@ -55,13 +55,13 @@ const RideHistoryScreen: React.FC<RideHistoryScreenProps> = ({
   const getStatusColor = (status: string) => {
     switch (status) {
       case "completed":
-        return theme.colors.success;
+        return (theme.colors as any).success ?? "#4CAF50";
       case "cancelled":
         return theme.colors.error;
       case "pending":
-        return theme.colors.warning;
+        return (theme.colors as any).warning ?? "#FFC107";
       default:
-        return theme.colors.onBackgroundVariant;
+        return (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant;
     }
   };
 
@@ -93,7 +93,7 @@ const RideHistoryScreen: React.FC<RideHistoryScreenProps> = ({
             <Text
               variant="bodySmall"
               style={{
-                color: theme.colors.onBackgroundVariant,
+                color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                 marginTop: 4,
               }}
             >
@@ -103,7 +103,7 @@ const RideHistoryScreen: React.FC<RideHistoryScreenProps> = ({
         </View>
         <View style={styles.rideStatus}>
           <Chip
-            label={item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+            onPress={() => undefined}
             style={{
               backgroundColor: getStatusColor(item.status),
             }}
@@ -115,7 +115,9 @@ const RideHistoryScreen: React.FC<RideHistoryScreenProps> = ({
                   ? "#fff"
                   : "#000",
             }}
-          />
+          >
+            {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+          </Chip>
           {item.rating && (
             <Text
               variant="bodySmall"
@@ -165,7 +167,7 @@ const RideHistoryScreen: React.FC<RideHistoryScreenProps> = ({
             <Text
               variant="bodyMedium"
               style={{
-                color: theme.colors.onBackgroundVariant,
+                color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                 textAlign: "center",
                 marginBottom: 16,
               }}
@@ -175,7 +177,7 @@ const RideHistoryScreen: React.FC<RideHistoryScreenProps> = ({
             <Text
               variant="bodySmall"
               style={{
-                color: theme.colors.onBackgroundVariant,
+                color: (theme.colors as any).onBackgroundVariant ?? theme.colors.onSurfaceVariant,
                 textAlign: "center",
               }}
             >

@@ -29,6 +29,7 @@ export const lightTheme = {
     onSecondaryContainer: colors.accentDark,
     background: colors.background,
     onBackground: "#1A1A1A",
+    onBackgroundVariant: "#4F4F4F",
     surface: colors.surface,
     onSurface: "#1A1A1A",
     surfaceVariant: "#E8E8E8",
@@ -38,8 +39,10 @@ export const lightTheme = {
     onError: "#FFFFFF",
     errorContainer: "#F9DEDC",
     onErrorContainer: "#410E0B",
+    success: colors.success,
+    warning: colors.warning,
   },
-};
+} as any;
 
 export const darkTheme = {
   ...MD3DarkTheme,
@@ -55,6 +58,7 @@ export const darkTheme = {
     onSecondaryContainer: colors.accentLight,
     background: "#121212",
     onBackground: "#E1E1E1",
+    onBackgroundVariant: "#CAC7D0",
     surface: "#1E1E1E",
     onSurface: "#E1E1E1",
     surfaceVariant: "#49454E",
@@ -64,7 +68,9 @@ export const darkTheme = {
     onError: "#601410",
     errorContainer: "#8C1D18",
     onErrorContainer: "#F9DEDC",
+    success: colors.success,
+    warning: colors.warning,
   },
-};
+} as any;
 
 export const customColors = colors;

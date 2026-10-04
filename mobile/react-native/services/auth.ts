@@ -1,5 +1,5 @@
 import apiClient from "./api";
-import { User, AuthResponse, ApiResponse } from "@types/index";
+import { User, AuthResponse, ApiResponse } from "../types";
 import * as SecureStore from "expo-secure-store";
 
 interface LoginRequest {
