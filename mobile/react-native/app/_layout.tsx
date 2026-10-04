@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import Toast from "react-native-toast-message";
-import { useAuth } from "@context/AuthContext";
+import { AuthProvider, useAuth } from "@context/AuthContext";
 import { lightTheme, darkTheme } from "@theme/theme";
 import { LoadingSpinner } from "@components/common";
 
@@ -130,7 +130,7 @@ function TabNavigator() {
   );
 }
 
-export default function RootLayout() {
+function AppShell() {
   const { isLoading, isSignedIn } = useAuth();
   const isDark = false; // Can be toggled based on device settings
   const theme = isDark ? darkTheme : lightTheme;
@@ -155,5 +155,13 @@ export default function RootLayout() {
       <StatusBar style="auto" />
       <Toast />
     </PaperProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <AppShell />
+    </AuthProvider>
   );
 }
